@@ -81,7 +81,7 @@ int main() {
 				
 				char empty;
 				
-				while(bandera < turnos){
+				while(bandera < turnos-1){
 					matriz = conway(matriz,y,x);
 					printMatrix(matriz,y,x);
 					empty = getch();
@@ -149,7 +149,7 @@ int main() {
 				char empty;
 				
 				//aqui se produce el juego
-				while(bandera < turnos){
+				while(bandera < turnos - 1){
 					matrix = conway(matrix,y,x);
 					printMatrix(matrix,y,x);
 					
@@ -279,13 +279,83 @@ int** conway(int** mat,int y,int x){
 					contador = 0;
 				}
 			}else if((i != 0 && i != y-1) && (j != x-1 && j != 0)){//validacion para la parte de enmedio
+				if(mat[i-1][j] == 1)//evaluar arriba
+					contador++;
+				if(mat[i][j-1] == 1)//evaluar a la izquierda
+					contador++;
+				if(mat[i-1][j-1] == 1)//evaluar diagonal izquierda hacia arriba
+					contador++;
+				if(mat[i+1][j] == 1)//evaluar posicion abajo
+					contador++;
+				if(mat[i+1][j-1] == 1)//evaluar diagonal izquierda hacia abajo
+					contador++;
+				if(mat[i-1][j+1] == 1)//evaluar diagonal derecha hacia arriba
+					contador++;
+				if(mat[i+1][j+1] == 1)//evaluar diagonal derecha hacia abajo
+					contador++;
+				if(mat[i][j+1] == 1)//evaluar a la derecha
+					contador++;
+				if(contador == 2 || contador == 3){
+					matrix_aux[i][j] = 1;
+					contador = 0;
+				}else if(contador > 3){
+					matrix_aux[i][j] = 0;
+					contador = 0;
+				}
+			}else if(i == y-1 && j == 0){//validacion de la esquina inferior izquierda
+				if(mat[i-1][j] == 1)//evaluar arriba
+					contador++;
+				if(mat[i-1][j+1] == 1)//evaluar diagonal derecha hacia arriba
+					contador++;
+				if(mat[i][j+1] == 1)//evaluar a la derecha
+					contador++;
+				if(contador == 2 || contador == 3){
+					matrix_aux[i][j] = 1;
+					contador = 0;
+				}else{
+					matrix_aux[i][j] = 0;
+					contador = 0;
+				}
 				
+				
+			}else if(i == y-1 && (j != 0 && j != x-1)){//validacion de la parte de abajo
+				if(mat[i][j-1] == 1)//evaluar a la izquierda
+					contador++;
+				if(mat[i-1][j-1] == 1)//evaluar diagonal izquierda hacia arriba
+					contador++;
+				if(mat[i-1][j] == 1)//evaluar arriba
+					contador++;
+				if(mat[i-1][j+1] == 1)//evaluar diagonal derecha hacia arriba
+					contador++;
+				if(mat[i][j+1] == 1)//evaluar a la derecha
+					contador++;
+				if(contador == 2 || contador == 3){
+					matrix_aux[i][j] = 1;
+					contador = 0;
+				}else if(contador > 3){
+					matrix_aux[i][j] = 0;
+					contador = 0;
+				}
+			}else if(i == y-1 && j == x-1){//validacion de la esquina inferior derecha
+				if(mat[i][j-1] == 1)//evaluar a la izquierda
+					contador++;
+				if(mat[i-1][j-1] == 1)//evaluar diagonal izquierda hacia arriba
+					contador++;
+				if(mat[i-1][j] == 1)//evaluar arriba
+					contador++;
+				if(contador == 2 || contador == 3){
+					matrix_aux[i][j] = 1;
+					contador = 0;
+				}else if(contador > 3){
+					matrix_aux[i][j] = 0;
+					contador = 0;
+				}
 			}
 			
 			
 			
-		}
-	}
+		}//fin del for interno
+	}//fin del for externo
 	
 	
 	freeMatrix(mat,y);
