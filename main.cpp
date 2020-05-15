@@ -81,11 +81,12 @@ int main() {
 				
 				char empty;
 				
-				while(bandera < turnos-1){
-					matriz = conway(matriz,y,x);
-					printMatrix(matriz,y,x);
+				while(bandera < turnos){
 					empty = getch();
 					getch();
+					matriz = conway(matriz,y,x);
+					printMatrix(matriz,y,x);
+					
 					bandera++;
 				}
 				//libera la memoria
@@ -149,12 +150,13 @@ int main() {
 				char empty;
 				
 				//aqui se produce el juego
-				while(bandera < turnos - 1){
+				while(bandera < turnos){
+					empty = getch();
+					getch();
 					matrix = conway(matrix,y,x);
 					printMatrix(matrix,y,x);
 					
-					empty = getch();
-					getch();
+					
 					bandera++;	
 				}
 				
