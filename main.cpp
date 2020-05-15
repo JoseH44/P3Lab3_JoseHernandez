@@ -36,9 +36,7 @@ int main() {
 		
 		switch(opcion){
 			case 1:{
-				/*char empty;
-				empty = getch();
-				getch();*/
+				
 				
 				int bandera = 0;
 				int x,y,turnos;
@@ -81,9 +79,15 @@ int main() {
 				//imprime la matriz
 				printMatrix(matriz,y,x);
 				
-				/*while(bandera < turnos){
-					
-				}*/
+				char empty;
+				
+				while(bandera < turnos){
+					matriz = conway(matriz,y,x);
+					printMatrix(matriz,y,x);
+					empty = getch();
+					getch();
+					bandera++;
+				}
 				//libera la memoria
 				freeMatrix(matriz,y);
 				matriz = NULL;
@@ -93,9 +97,7 @@ int main() {
 			}
 			
 			case 2:{
-				/*char empty;
-				empty = getch();
-				getch();*/
+				
 				//dimensiones de la matriz
 				int bandera = 0;
 				int x = 20;
@@ -144,9 +146,17 @@ int main() {
 				//imprime la matriz
 				printMatrix(matrix,y,x);
 				
-				/*while(bandera < turnos){
+				char empty;
+				
+				//aqui se produce el juego
+				while(bandera < turnos){
+					matrix = conway(matrix,y,x);
+					printMatrix(matrix,y,x);
 					
-				}*/
+					empty = getch();
+					getch();
+					bandera++;	
+				}
 				
 				//limpia la matriz
 				freeMatrix(matrix,y);
@@ -197,13 +207,13 @@ int** conway(int** mat,int y,int x){
 					matrix_aux[i][j] = 0;
 					contador = 0;
 				}
-			}else if(i == 0 && j != 0){//validacion de la fila de arriba excluyendo las esquinas
+			}else if(i == 0 && (j != 0 && j != x-1)){//validacion de la fila de arriba excluyendo las esquinas
 				if(mat[i][j-1] == 1)//evaluar a la izquierda
 					contador++;
 				if(mat[i][j+1] == 1)//evaluar a la derecha
 					contador++;
 				if(mat[i+1][j-1] == 1)//evaluar diagonal izquierda hacia abajo
-					contador++
+					contador++;
 				if(mat[i+1][j] == 1)//evaluar posicion abajo
 					contador++;
 				if(mat[i+1][j+1] == 1)//evaluar diagonal derecha hacia abajo
@@ -215,9 +225,64 @@ int** conway(int** mat,int y,int x){
 					matrix_aux[i][j] = 0;
 					contador = 0;
 				}
+			}else if(i == 0 && j == x-1){//validacion de la posicion 0,x-1
+				if(mat[i][j-1] == 1){//evaluar a la izquierda
+					contador++;
+				}
+				if(mat[i+1][j-1] == 1){//evaluar diagonal izquierda hacia abajo
+					contador++;
+				}
+				if(mat[i+1][j] == 1){//evaluar hacia abajo
+					contador++;
+				}
+				if(contador == 2 || contador == 3){
+					matrix_aux[i][j] = 1;
+					contador = 0;
+				}else{
+					matrix_aux[i][j] = 0;
+					contador = 0;
+				}
+			}else if((i != 0 && i != y-1 ) && (j == 0 && j != x-1)){//validacion de los extremos de la izquierda
+				if(mat[i-1][j] == 1)//evaluar arriba
+					contador++;
+				if(mat[i][j+1] == 1)//evaluar a la derecha
+					contador++;
+				if(mat[i-1][j+1] == 1)//evaluar diagonal derecha hacia arriba
+					contador++;
+				if(mat[i+1][j] == 1)//evaluar posicion abajo
+					contador++;
+				if(mat[i+1][j+1] == 1)//evaluar diagonal derecha hacia abajo
+					contador++;
+				if(contador == 2 || contador == 3){
+					matrix_aux[i][j] = 1;
+					contador = 0;
+				}else{
+					matrix_aux[i][j] = 0;
+					contador = 0;
+				}
+			}else if((i != 0 && i != y-1) && j == x-1){//validacion de los extremos de la derecha
+				if(mat[i-1][j] == 1)//evaluar arriba
+					contador++;
+				if(mat[i][j-1] == 1)//evaluar a la izquierda
+					contador++;
+				if(mat[i-1][j-1] == 1)//evaluar diagonal izquierda hacia arriba
+					contador++;
+				if(mat[i+1][j] == 1)//evaluar posicion abajo
+					contador++;
+				if(mat[i+1][j-1] == 1)//evaluar diagonal izquierda hacia abajo
+					contador++;
+				if(contador == 2 || contador == 3){
+					matrix_aux[i][j] = 1;
+					contador = 0;
+				}else{
+					matrix_aux[i][j] = 0;
+					contador = 0;
+				}
+			}else if((i != 0 && i != y-1) && (j != x-1 && j != 0)){//validacion para la parte de enmedio
+				
 			}
 			
-			//si el contador es igual a 2 o 3 le asigna a la nueva matriz
+			
 			
 		}
 	}
