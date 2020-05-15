@@ -5,11 +5,13 @@ using std::endl;
 
 #include <stdlib.h>
 #include <time.h>
+#include <stdio.h>
+#include <conio.h>
 
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
 //funcion del juego
-void conway(int**,int,int,int);
+int** conway(int**,int,int);
 
 //funcion que imprime la matriz
 void printMatrix(int**,int,int);
@@ -19,6 +21,8 @@ void freeMatrix(int**,int);
 
 //funcion que crea la matriz random
 int** CreateMatriz(int**,int,int);
+
+
 
 
 
@@ -32,6 +36,11 @@ int main() {
 		
 		switch(opcion){
 			case 1:{
+				/*char empty;
+				empty = getch();
+				getch();*/
+				
+				int bandera = 0;
 				int x,y,turnos;
 				cout <<"Ingrese el valor de y (Que representan las filas): ";
 				cin >> y;
@@ -72,6 +81,9 @@ int main() {
 				//imprime la matriz
 				printMatrix(matriz,y,x);
 				
+				/*while(bandera < turnos){
+					
+				}*/
 				//libera la memoria
 				freeMatrix(matriz,y);
 				matriz = NULL;
@@ -81,12 +93,21 @@ int main() {
 			}
 			
 			case 2:{
+				/*char empty;
+				empty = getch();
+				getch();*/
 				//dimensiones de la matriz
+				int bandera = 0;
 				int x = 20;
 				int y = 20;
 				int turnos;
 				cout<<endl<<"Ingrese los Numeros de Turnos: ";
 				cin >> turnos;
+				while(turnos <= 0){
+					cout << endl <<"El numero debe ser mayor que 0"<<endl;
+					cout <<"Ingrese los Numeros de Turnos: ";
+					cin >> turnos;
+				}
 				//matriz en duro 
 				int temp_mat [20][20] = {
 					{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -123,6 +144,10 @@ int main() {
 				//imprime la matriz
 				printMatrix(matrix,y,x);
 				
+				/*while(bandera < turnos){
+					
+				}*/
+				
 				//limpia la matriz
 				freeMatrix(matrix,y);
 				matrix = NULL;
@@ -143,8 +168,63 @@ int main() {
 }//fin del main
 
 
-void conway(int** mat,int y,int x,int turnos){
+int** conway(int** mat,int y,int x){
+	int contador = 0;
+	//matriz auxiliar 
+	int** matrix_aux = NULL;
+	matrix_aux = new int*[y];
+	for(int i = 0; i < y; i++){
+		matrix_aux[i] = new int[x];
+	}
 	
+	for(int i = 0; i < y; i++){
+		for(int j = 0; j < x; j++){
+			//validacion de la posicion 00
+			if( i == 0 && j == 0){
+				if(mat[i + 1][j] == 1){
+					contador++;
+				}
+				if(mat[i][j+1] == 1){
+					contador++;
+				}
+				if(mat[i+1][j+1] == 1){
+					contador++;
+				}
+				if(contador == 2 || contador == 3){
+					matrix_aux[i][j] = 1;
+					contador = 0;
+				}else{
+					matrix_aux[i][j] = 0;
+					contador = 0;
+				}
+			}else if(i == 0 && j != 0){//validacion de la fila de arriba excluyendo las esquinas
+				if(mat[i][j-1] == 1)//evaluar a la izquierda
+					contador++;
+				if(mat[i][j+1] == 1)//evaluar a la derecha
+					contador++;
+				if(mat[i+1][j-1] == 1)//evaluar diagonal izquierda hacia abajo
+					contador++
+				if(mat[i+1][j] == 1)//evaluar posicion abajo
+					contador++;
+				if(mat[i+1][j+1] == 1)//evaluar diagonal derecha hacia abajo
+					contador++;
+				if(contador == 2 || contador == 3){
+					matrix_aux[i][j] = 1;
+					contador = 0;
+				}else{
+					matrix_aux[i][j] = 0;
+					contador = 0;
+				}
+			}
+			
+			//si el contador es igual a 2 o 3 le asigna a la nueva matriz
+			
+		}
+	}
+	
+	
+	freeMatrix(mat,y);
+	return matrix_aux;
 }
 
 void printMatrix(int** mat,int y,int x){
