@@ -17,6 +17,9 @@ void printMatrix(int**,int,int);
 //funcion para liberar una matriz de enteros
 void freeMatrix(int**,int);
 
+//funcion que crea la matriz random
+int** CreateMatriz(int**,int,int);
+
 
 
 int main() {
@@ -29,6 +32,51 @@ int main() {
 		
 		switch(opcion){
 			case 1:{
+				int x,y,turnos;
+				cout <<"Ingrese el valor de y (Que representan las filas): ";
+				cin >> y;
+				//validacion
+				while(y <= 0){
+					cout << endl <<"El numero debe ser mayor que 0"<<endl;
+					cout <<"Ingrese el valor de y (Que representan las filas): ";
+					cin >> y;
+				}
+				cout <<endl << "Ingrese el valor de x (Que representan las Columnas): ";
+				cin >> x;
+				//validacion
+				while(x <= 0){
+					cout << endl <<"El numero debe ser mayor que 0"<<endl;
+					cout <<"Ingrese el valor de x (Que representan las filas): ";
+					cin >> x;
+				}
+				cout<<endl<<"Ingrese los Numeros de Turnos: ";
+				cin >> turnos;
+				//validacion
+				while(turnos <= 0){
+					cout << endl <<"El numero debe ser mayor que 0"<<endl;
+					cout <<"Ingrese los Numeros de Turnos: ";
+					cin >> turnos;
+				}
+				
+				//matriz de punteros instanciada
+				int** matriz = NULL;
+				matriz = new int*[y];
+				
+				for(int i = 0;i < y; i++){
+					matriz[i] = new int[x];
+				}
+				
+				//lenado de numeros del 0-1
+				matriz = CreateMatriz(matriz,y,x);
+				
+				//imprime la matriz
+				printMatrix(matriz,y,x);
+				
+				//libera la memoria
+				freeMatrix(matriz,y);
+				matriz = NULL;
+				
+				
 				break;
 			}
 			
@@ -36,7 +84,9 @@ int main() {
 				//dimensiones de la matriz
 				int x = 20;
 				int y = 20;
-				
+				int turnos;
+				cout<<endl<<"Ingrese los Numeros de Turnos: ";
+				cin >> turnos;
 				//matriz en duro 
 				int temp_mat [20][20] = {
 					{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -121,7 +171,7 @@ void printMatrix(int** mat,int y,int x){
 	for(int i = 0; i < x; i++){
 		cout << "$ ";
 	}
-	cout<<endl;
+	cout<<endl<<endl;
 }
 
 void freeMatrix(int** mat,int y){
@@ -132,6 +182,19 @@ void freeMatrix(int** mat,int y){
 	
 	//liberamos el arreglo de apuntadores
 	delete[] mat;
+}
+
+int** CreateMatriz(int** mat,int y ,int x){
+	int num_random;
+	srand(time(NULL));
+	for(int i = 0; i < y; i++){
+		for(int j = 0; j < x; j++){
+			num_random = 0 + rand() % (2-0);
+			mat[i][j] = num_random;
+		}
+	}
+	
+	return mat;
 }
 
 
